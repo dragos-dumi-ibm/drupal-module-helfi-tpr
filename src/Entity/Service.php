@@ -150,13 +150,18 @@ class Service extends TprEntityBase {
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
+    $fields['name_synonyms'] = BaseFieldDefinition::create('string')
+      ->setTranslatable(TRUE)
+      ->setRevisionable(FALSE)
+      ->setLabel(new TranslatableMarkup('Name_synonyms'))
+      ->setDescription(new TranslatableMarkup('Name synonyms for the service title.'))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['description'] = BaseFieldDefinition::create('text_with_summary')
       ->setTranslatable(TRUE)
       ->setRevisionable(FALSE)
       ->setLabel(new TranslatableMarkup('Description'))
-      ->setDisplayOptions('form', [
-        'type' => 'readonly_field_widget',
-      ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayConfigurable('view', TRUE);
 
@@ -193,6 +198,9 @@ class Service extends TprEntityBase {
       ->setRevisionable(FALSE)
       ->setTranslatable(TRUE);
 
+//    $fields['name_synonyms']->setDefaultValue('test');
+//    dump($fields['data']);
+//   dd($fields['name_synonyms']);
     return $fields;
   }
 

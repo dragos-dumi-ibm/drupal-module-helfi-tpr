@@ -699,3 +699,21 @@ function helfi_tpr_update_8039() : void {
       ->installFieldStorageDefinition($name, 'tpr_unit', 'helfi_tpr', $field);
   }
 }
+
+/**
+ * Add name_synonyms field to Service entity.
+ */
+function helfi_tpr_update_8044() : void {
+  $fields['name_synonyms'] = BaseFieldDefinition::create('string')
+    ->setTranslatable(TRUE)
+    ->setRevisionable(FALSE)
+    ->setLabel(new TranslatableMarkup('Name synonyms'))
+    ->setDescription(new TranslatableMarkup('Name synonyms for the service title.'))
+    ->setDisplayConfigurable('form', TRUE)
+    ->setDisplayConfigurable('view', TRUE);
+
+  foreach ($fields as $name => $field) {
+    \Drupal::entityDefinitionUpdateManager()
+      ->installFieldStorageDefinition($name, 'tpr_service', 'helfi_tpr', $field);
+  }
+}
