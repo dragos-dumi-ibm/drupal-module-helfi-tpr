@@ -13,6 +13,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\helfi_tpr\Entity\ChannelTypeCollection;
+use Drupal\migrate\Plugin\MigrateIdMapInterface;
 
 /**
  * Helper function to get the content translation field definitions.
@@ -719,4 +720,13 @@ function helfi_tpr_update_8040() : void {
     \Drupal::entityDefinitionUpdateManager()
       ->installFieldStorageDefinition($name, 'tpr_service', 'helfi_tpr', $field);
   }
+}
+
+/**
+ * Map all services that needs update to import name_synonyms on next migration.
+ */
+function helfi_tpr_update_8041() : void {
+  \Drupal::database()->update('migrate_map_tpr_service')->fields([
+    'source_row_status' => 1
+  ])->execute();
 }
