@@ -703,12 +703,15 @@ function helfi_tpr_update_8039() : void {
 /**
  * Add name_synonyms field to Service entity.
  */
-function helfi_tpr_update_8049() : void {
-  $fields['name_synonyms'] = BaseFieldDefinition::create('text_long')
+function helfi_tpr_update_8052() : void {
+  $fields['name_synonyms'] = BaseFieldDefinition::create('string_long')
     ->setTranslatable(TRUE)
     ->setRevisionable(FALSE)
     ->setLabel(new TranslatableMarkup('Name synonyms'))
     ->setDescription(new TranslatableMarkup('Name synonyms for the service title.'))
+    ->setDisplayOptions('form', [
+      'type' => 'readonly_field_widget',
+    ])
     ->setDisplayConfigurable('form', TRUE)
     ->setDisplayConfigurable('view', TRUE);
 
