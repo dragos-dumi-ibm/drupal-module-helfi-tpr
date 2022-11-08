@@ -24,10 +24,13 @@ class ServiceIdArgument extends ArgumentPluginBase
 
     // Separate IDs from Service IDs.
     $input = explode('|', $this->argument);
-    $ids = explode(',', $input[0]);
-    $service_ids = explode(',', $input[1]);
+    $ids = array_filter(explode(',', $input[0]));
+    $service_ids = array_filter(explode(',', $input[1]));
 
-    // Add query.
+    if (empty($ids) && empty($service_ids)) {
+      return;
+    }
+
     $group = $this->query->setWhereGroup('OR');
     if (!empty($ids)) {
       $this->query->addWhere($group, 'id', $ids, 'IN');
