@@ -154,7 +154,7 @@ class ErrandServicesFormatter extends FormatterBase {
           '#name' => $this->getSetting('sort_order')[$channel->getType()]['label'],
           '#weight' => $channelTypes[$channel->getType()]->weight,
         ];
-        $renderer->addCacheableDependency($item_list, $this->getSetting('sort_order')[$channel->getType()]['label']);
+        $renderer->addCacheableDependency($item_list, $channel);
       }
     }
 
