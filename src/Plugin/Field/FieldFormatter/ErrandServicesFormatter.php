@@ -150,13 +150,11 @@ class ErrandServicesFormatter extends FormatterBase {
           continue;
         }
 
-        /** @var \Drupal\helfi_tpr\Entity\Channel $translatedChannel */
-//        $translatedChannel = \Drupal::service('entity.repository')->getTranslationFromContext($channel, $langcode);
         $channel_list[$channel->getType()] = [
           '#name' => $this->getSetting('sort_order')[$channel->getType()]['label'],
           '#weight' => $channelTypes[$channel->getType()]->weight,
         ];
-        $renderer->addCacheableDependency($item_list, $translatedChannel);
+        $renderer->addCacheableDependency($item_list, $this->getSetting('sort_order')[$channel->getType()]['label']);
       }
     }
 
