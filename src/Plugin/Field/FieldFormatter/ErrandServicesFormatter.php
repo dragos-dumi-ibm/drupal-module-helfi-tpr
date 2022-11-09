@@ -9,6 +9,7 @@ use Drupal\Core\Cache\Cache;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\helfi_tpr\Entity\ChannelType;
 use Drupal\helfi_tpr\Entity\ChannelTypeCollection;
 use Drupal\helfi_tpr\Entity\Service;
 
@@ -76,6 +77,7 @@ class ErrandServicesFormatter extends FormatterBase {
         $this->t('ID'),
         $this->t('Label'),
         $this->t('Show'),
+        $this->t('Label'),
         $this->t('Weight'),
       ],
       '#tableselect' => FALSE,
@@ -87,20 +89,29 @@ class ErrandServicesFormatter extends FormatterBase {
         ],
       ],
     ];
+    $channelTypes = [];
+    foreach ($this->getChannelTypes() as $channelId => $channelType) {
+      $channelTypes[$channelId] = $channelType;
+    }
+    $channelTypes['OFFICE'] = new ChannelType('OFFICE', 99);
 
-    foreach ($this->getChannelTypes() as $item) {
+
+    foreach ($channelTypes as $item) {
       $form['sort_order'][$item->id] = [
         '#attributes' => ['class' => ['draggable']],
         '#weight' => $item->weight,
         'id' => ['#plain_text' => $item->id],
-        'label' => ['#plain_text' => $item->label()],
+        'label' => [
+          '#type' => 'textfield',
+          '#default_value' => $this->getSetting('sort_order')[$item->id]['label'] ?? $item->id,
+        ],
         'show' => [
           '#type' => 'checkbox',
           '#default_value' => $this->getSetting('sort_order')[$item->id]['show'] ?? 0,
         ],
         'weight' => [
           '#type' => 'weight',
-          '#title' => $this->t('Weight for @title', ['@title' => $item->label()]),
+          '#title' => $this->t('Weight for @title', ['@title' => $item->id]),
           '#title_display' => 'invisible',
           '#default_value' => $item->weight,
           '#attributes' => ['class' => ['group-weight']],
@@ -140,9 +151,9 @@ class ErrandServicesFormatter extends FormatterBase {
         }
 
         /** @var \Drupal\helfi_tpr\Entity\Channel $translatedChannel */
-        $translatedChannel = \Drupal::service('entity.repository')->getTranslationFromContext($channel, $langcode);
+//        $translatedChannel = \Drupal::service('entity.repository')->getTranslationFromContext($channel, $langcode);
         $channel_list[$channel->getType()] = [
-          '#name' => $translatedChannel->type_string->value,
+          '#name' => $this->getSetting('sort_order')[$channel->getType()]['label'],
           '#weight' => $channelTypes[$channel->getType()]->weight,
         ];
         $renderer->addCacheableDependency($item_list, $translatedChannel);
@@ -154,8 +165,8 @@ class ErrandServicesFormatter extends FormatterBase {
 
     if ($service->hasField('has_unit') && $service->has_unit->value) {
       $channel_list['OFFICE'] = [
-        '#name' => $this->t('Office'),
-        '#weight' => 999,
+        '#name' => $this->getSetting('sort_order')['OFFICE']['label'],
+        '#weight' => $this->getSetting('sort_order')['OFFICE']['weight'],
       ];
     }
 
