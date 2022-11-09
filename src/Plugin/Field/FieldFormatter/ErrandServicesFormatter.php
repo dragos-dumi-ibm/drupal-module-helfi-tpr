@@ -35,6 +35,25 @@ class ErrandServicesFormatter extends FormatterBase {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function settingsSummary() {
+    $settings = $this->getSetting('sort_order');
+    $selected_channels = [];
+    foreach ($settings as $channel_type => $channel_setting) {
+      if ($channel_setting['show']) {
+        $selected_channels[] = $channel_type;
+      }
+    }
+
+    return [
+      $this->t('Showing @list ', [
+        '@list' => implode(', ', $selected_channels)
+      ])
+    ];
+  }
+
+  /**
    * Gets the channel types.
    *
    * @return \Drupal\helfi_tpr\Entity\ChannelTypeCollection
@@ -56,6 +75,7 @@ class ErrandServicesFormatter extends FormatterBase {
       '#header' => [
         $this->t('ID'),
         $this->t('Label'),
+        $this->t('Show'),
         $this->t('Weight'),
       ],
       '#tableselect' => FALSE,
@@ -74,6 +94,10 @@ class ErrandServicesFormatter extends FormatterBase {
         '#weight' => $item->weight,
         'id' => ['#plain_text' => $item->id],
         'label' => ['#plain_text' => $item->label()],
+        'show' => [
+          '#type' => 'checkbox',
+          '#default_value' => $this->getSetting('sort_order')[$item->id]['show'] ?? 0,
+        ],
         'weight' => [
           '#type' => 'weight',
           '#title' => $this->t('Weight for @title', ['@title' => $item->label()]),
@@ -95,7 +119,6 @@ class ErrandServicesFormatter extends FormatterBase {
     if (!$items->getEntity() instanceof Service) {
       throw new \InvalidArgumentException('The field can only be used with Services entities.');
     }
-
     $channelTypes = $this->getChannelTypes();
 
     /** @var \Drupal\Core\Render\Renderer $renderer */
@@ -111,7 +134,8 @@ class ErrandServicesFormatter extends FormatterBase {
     foreach ($errand_services as $errand_service) {
       /** @var \Drupal\helfi_tpr\Entity\ErrandService $errand_service */
       foreach ($errand_service->getChannels() as $channel) {
-        if (isset($channel_list[$channel->getType()])) {
+        if (isset($channel_list[$channel->getType()])
+        || empty($this->getSetting('sort_order')[$channel->getType()]['show'])) {
           continue;
         }
 
