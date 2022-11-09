@@ -58,8 +58,7 @@ final class Service extends FixtureBase {
             ],
           ],
           'name_synonyms' =>  sprintf('Name synonyms %s %s', $language, $id),
-          'service_id' => 10554,
-          'has_unit' => 1
+          'service_id' => 10554
         ];
       }
     }
@@ -67,7 +66,6 @@ final class Service extends FixtureBase {
     $services[] = [
       'fi' => [
         'id' => 7822,
-        'has_unit' => 1,
         'main_description' => TRUE,
         'service_id' => 10554,
         'title' => 'Digituki',
@@ -183,7 +181,6 @@ Palvelu on maksutonta.',
     $services[] = [
       'fi' => [
         'id' => 7716,
-        'has_unit' => 0,
         'main_description' => FALSE,
         'service_id' => 10290,
         'title' => 'Parkletit',
@@ -231,7 +228,6 @@ Lisätietoja parklet-luvan hakemisesta saat Lue lisää-kohdan linkistä.',
     $services[] = [
       'fi' => [
         'id' => 7705,
-        'has_unit' => 1,
         'main_description' => FALSE,
         'service_id' => 10014,
         'title' => 'Sosiaalineuvonta',
@@ -273,7 +269,6 @@ Tarvittaessa sosiaalineuvonnasta asiakasta ohjataan eteenpäin palveluissa palve
       ],
       'sv' => [
         'id' => 7705,
-        'has_unit' => 0,
         'main_description' => FALSE,
         'service_id' => 10014,
         'title' => 'Socialrådgivning',
@@ -315,7 +310,6 @@ Vid behov hänvisar rådgivningen klienten vidare till rätta tjänster. Socialr
         'id' => 7705,
         'main_description' => FALSE,
         'service_id' => 10014,
-        'has_unit' => 0,
         'title' => 'Social welfare counselling',
         'name_synonyms' => 'social work for adults, counselling in social welfare',
         'description_short' => 'Social welfare counselling helps residents of Helsinki with all issues related to adult social work.',
