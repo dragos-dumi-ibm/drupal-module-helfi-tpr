@@ -49,7 +49,7 @@ field.formatter.settings.tpr_service_err_channel_list:
         type: mapping
         mapping:
           label:
-            type: string
+            type: label
           show:
             type: boolean
           weight:
