@@ -16,7 +16,14 @@ source:
 process:
   id: id
   name: title
-  name_synonyms: name_synonyms
+  name_synonyms:
+    - plugin: explode
+      source: name_synonyms
+      delimiter: ","
+      strict: false
+    - plugin: callback
+      source: name_synonyms
+      callable: trim
   service_id: service_id
   description/summary: description_short
   description/value: description_long

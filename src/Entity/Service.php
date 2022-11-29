@@ -154,6 +154,7 @@ class Service extends TprEntityBase {
       ->setTranslatable(TRUE)
       ->setRevisionable(FALSE)
       ->setLabel(new TranslatableMarkup('Name synonyms'))
+      ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
       ->setDescription(new TranslatableMarkup('Name synonyms for the service title.'))
       ->setDisplayOptions('form', [
         'type' => 'readonly_field_widget',

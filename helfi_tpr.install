@@ -734,6 +734,7 @@ function helfi_tpr_update_8041() : void {
   $fields['name_synonyms'] = BaseFieldDefinition::create('string_long')
     ->setTranslatable(TRUE)
     ->setRevisionable(FALSE)
+    ->setCardinality(BaseFieldDefinition::CARDINALITY_UNLIMITED)
     ->setLabel(new TranslatableMarkup('Name synonyms'))
     ->setDescription(new TranslatableMarkup('Name synonyms for the service title.'))
     ->setDisplayOptions('form', [
